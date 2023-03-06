@@ -3,6 +3,7 @@ package initWeb
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"log"
 	"os"
@@ -11,7 +12,17 @@ import (
 
 func InitWebserver() {
 	WebApp := fiber.New()
+	WebApp.Use(cors.New(cors.Config{
+		Next:             nil,
+		AllowOrigins:     "*",
+		AllowMethods:     "*",
+		AllowHeaders:     "content-type,authentication",
+		AllowCredentials: true,
+		ExposeHeaders:    "*",
+		MaxAge:           0,
+	}))
 	createLogger(WebApp)
+	initStartForFistTime(WebApp)
 	WebApp.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
@@ -30,7 +41,6 @@ func createLogger(app *fiber.App) {
 		Output: file,
 		Format: "[${time}] (${ip}) ${status} - ${latency} ${method} ${path}\n",
 	}))
-
 	config.AddAppShutdowns(ShutDownLogFile{file})
 }
 

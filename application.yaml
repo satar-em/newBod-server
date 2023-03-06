@@ -8,6 +8,7 @@ database:
     name: gorm-log.txt
     dest: ./logs
 webServer:
+  setupPath: /setup
   port: 443
   sllCRT: ./ssl/certificate.crt
   sslKey: ./ssl/privatekey.key

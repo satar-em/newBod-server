@@ -30,14 +30,16 @@ type AppProperties struct {
 		} `yaml:"logFile"`
 	} `yaml:"database"`
 	WebServer struct {
-		Port    string `yaml:"port"`
-		SSLCrt  string `yaml:"sllCRT"`
-		SSLKey  string `yaml:"sslKey"`
-		LogFile struct {
+		SetupPath string `yaml:"setupPath"`
+		Port      string `yaml:"port"`
+		SSLCrt    string `yaml:"sllCRT"`
+		SSLKey    string `yaml:"sslKey"`
+		LogFile   struct {
 			Name string `yaml:"name"`
 			Dest string `yaml:"dest"`
 		} `yaml:"logFile"`
 	} `yaml:"webServer"`
+	NeedSetup bool
 }
 
 var AppProp AppProperties

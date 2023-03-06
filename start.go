@@ -15,9 +15,8 @@ func main() {
 	go func() {
 		for range c {
 			for index, value := range *config.GetAppShutdowns() {
-				fmt.Printf("Shutting Down %d of %d\n", index+1, len(*config.GetAppShutdowns()))
+				fmt.Printf("\n\n*****  Shutting Down %d of %d\n", index+1, len(*config.GetAppShutdowns()))
 				value.OnExitApp()
-
 			}
 			os.Exit(1)
 		}

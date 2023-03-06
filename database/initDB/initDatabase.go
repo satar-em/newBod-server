@@ -33,8 +33,13 @@ func InitializeDB() {
 	}
 	var user1 []model.User
 	db.Preload("Role.UserContain.Role.UserContain").Preload(clause.Associations).Find(&user1)
-	fmt.Printf("size of found user is %d .\n", len(user1))
+	if len(user1) == 0 {
+		config.GetAppProperties().NeedSetup = true
+	} else {
+		config.GetAppProperties().NeedSetup = false
+	}
 	database.SetDB(db)
+
 }
 
 func TestMain() {
