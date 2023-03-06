@@ -1,7 +1,7 @@
 database:
   dbHost: localhost
   dbPort: 5432
-  dbName: test123
+  dbName: 1234
   dbUsername: postgres
   dbPassword: 1234
   logFile:

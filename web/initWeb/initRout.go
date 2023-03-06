@@ -3,6 +3,7 @@ package initWeb
 import (
 	"github.com/gofiber/fiber/v2"
 	"server/config"
+	"server/database/model"
 )
 
 func initStartForFistTime(app *fiber.App) {
@@ -11,14 +12,29 @@ func initStartForFistTime(app *fiber.App) {
 			if config.GetAppProperties().NeedSetup {
 				return c.Next()
 			}
-			return c.SendString("canSetup = false")
+			return c.Redirect(config.GetAppProperties().WebServer.SetupPath + "/error")
 		}
 		if config.GetAppProperties().NeedSetup {
 			return c.Redirect(config.GetAppProperties().WebServer.SetupPath)
 		}
 		return c.Next()
 	})
-	app.Get(config.GetAppProperties().WebServer.SetupPath, func(c *fiber.Ctx) error {
-		return c.SendString("canSetup = true")
-	})
+	app.Get(config.GetAppProperties().WebServer.SetupPath, getSetup)
+	app.Post(config.GetAppProperties().WebServer.SetupPath, postSetup)
+	app.Get(config.GetAppProperties().WebServer.SetupPath+"/error", getCantSetup)
+}
+func getCantSetup(c *fiber.Ctx) error {
+	mapResponse := map[string]any{"canSetup": false}
+	return c.JSON(mapResponse)
+}
+func getSetup(c *fiber.Ctx) error {
+	mapResponse := map[string]any{"canSetup": true}
+	return c.JSON(mapResponse)
+}
+func postSetup(c *fiber.Ctx) error {
+	return c.SendString("canSetup = true in post")
+}
+
+type setupRequestBody struct {
+	UserInit model.User
 }
