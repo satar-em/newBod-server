@@ -1,0 +1,16 @@
+database:
+  dbHost: localhost
+  dbPort: 5432
+  dbName: test123
+  dbUsername: postgres
+  dbPassword: 1234
+  logFile:
+    name: gorm-log.txt
+    dest: ./logs
+webServer:
+  port: 443
+  sllCRT: ./ssl/certificate.crt
+  sslKey: ./ssl/privatekey.key
+  logFile:
+    name: fiber-log.txt
+    dest: ./logs
