@@ -11,7 +11,7 @@ func initStartForFistTime(app *fiber.App) {
 			if config.GetAppProperties().NeedSetup {
 				return c.Next()
 			}
-			return c.SendString("cannot setup now")
+			return c.SendString("canSetup = false")
 		}
 		if config.GetAppProperties().NeedSetup {
 			return c.Redirect(config.GetAppProperties().WebServer.SetupPath)
@@ -19,6 +19,6 @@ func initStartForFistTime(app *fiber.App) {
 		return c.Next()
 	})
 	app.Get(config.GetAppProperties().WebServer.SetupPath, func(c *fiber.Ctx) error {
-		return c.SendString("you can setup")
+		return c.SendString("canSetup = true")
 	})
 }
