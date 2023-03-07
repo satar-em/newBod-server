@@ -1,7 +1,6 @@
 package model
 
 import (
-	"github.com/lib/pq"
 	"server/database"
 )
 
@@ -18,7 +17,6 @@ type User struct {
 	Address     string
 	UserName    string
 	Password    string
-	ErpEmami    pq.Int64Array `gorm:"type:integer[]"`
 }
 
 func (u User) TableName() string {

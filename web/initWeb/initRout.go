@@ -3,6 +3,7 @@ package initWeb
 import (
 	"github.com/gofiber/fiber/v2"
 	"server/config"
+	"server/database"
 	"server/database/model"
 )
 
@@ -32,7 +33,16 @@ func getSetup(c *fiber.Ctx) error {
 	return c.JSON(mapResponse)
 }
 func postSetup(c *fiber.Ctx) error {
-	return c.SendString("canSetup = true in post")
+	bodyRequest := setupRequestBody{}
+	err := c.BodyParser(&bodyRequest)
+	if err != nil {
+		return c.SendString("bad Body")
+	}
+	database.GetDB().Create(&bodyRequest.UserInit)
+	if bodyRequest.UserInit.ID != 0 {
+		config.GetAppProperties().NeedSetup = false
+	}
+	return c.JSON(bodyRequest)
 }
 
 type setupRequestBody struct {
