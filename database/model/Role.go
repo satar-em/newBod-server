@@ -10,9 +10,9 @@ type RoleUser struct {
 	EmamiModel
 	Name        string
 	Code        string
-	UserContain []*User `gorm:"many2many:new_bod_user_role;"`
+	UserContain []*User `gorm:"many2many:new_bod_user-role;"`
 }
 
-func (r RoleUser) TableName() string {
+func (r *RoleUser) TableName() string {
 	return "new_bod_role"
 }

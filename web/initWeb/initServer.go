@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"server/config"
+	"server/web/router"
 )
 
 func InitWebserver() {
@@ -26,6 +27,7 @@ func InitWebserver() {
 	WebApp.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
+	WebApp.Post("/login", router.PostLogin)
 	log.Fatal(WebApp.ListenTLS(":"+config.GetAppProperties().WebServer.Port, config.GetAppProperties().WebServer.SSLCrt, config.GetAppProperties().WebServer.SSLKey))
 }
 

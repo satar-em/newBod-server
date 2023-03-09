@@ -2,8 +2,8 @@ package initWeb
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"log"
 	"server/config"
-	"server/database"
 	"server/database/model"
 )
 
@@ -38,13 +38,39 @@ func postSetup(c *fiber.Ctx) error {
 	if err != nil {
 		return c.SendString("bad Body")
 	}
-	database.GetDB().Create(&bodyRequest.UserInit)
+	ServerUser := model.User{Name: "Server Init User", Username: "server"}
+	err = ServerUser.Save()
+	if err != nil {
+		log.Println(err)
+	}
+	ServerUser.CreatedByObject0 = &ServerUser
+	err = ServerUser.Save()
+	if err != nil {
+		log.Println(err)
+	}
+	bodyRequest.UserInit.CreatedByObject0 = &ServerUser
+	err = bodyRequest.UserInit.SetPasswordWithBcrypt(bodyRequest.UserInit.Password)
+	if err != nil {
+		log.Println(err)
+	}
+	err = bodyRequest.UserInit.Save()
+	if err != nil {
+		log.Println(err)
+	}
+
+	bodyRequest.ServerInit.CreatedByObject = &ServerUser
+	err = bodyRequest.ServerInit.Save()
+	if err != nil {
+		log.Println(err)
+	}
 	if bodyRequest.UserInit.ID != 0 {
 		config.GetAppProperties().NeedSetup = false
 	}
 	return c.JSON(bodyRequest)
+
 }
 
 type setupRequestBody struct {
-	UserInit model.User
+	UserInit   model.User
+	ServerInit model.ServerDetails
 }
