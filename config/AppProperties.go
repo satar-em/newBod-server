@@ -31,10 +31,16 @@ type AppProperties struct {
 	} `yaml:"database"`
 	WebServer struct {
 		SetupPath string `yaml:"setupPath"`
-		Port      string `yaml:"port"`
-		SSLCrt    string `yaml:"sllCRT"`
-		SSLKey    string `yaml:"sslKey"`
-		LogFile   struct {
+		Security  struct {
+			TokenExpireInMinute int    `yaml:"tokenExpireInMinute"`
+			LoginPath           string `yaml:"loginPath"`
+			UsernameParamName   string `yaml:"usernameParamName"`
+			PasswordParamName   string `yaml:"passwordParamName"`
+		} `yaml:"security"`
+		Port    string `yaml:"port"`
+		SSLCrt  string `yaml:"sllCRT"`
+		SSLKey  string `yaml:"sslKey"`
+		LogFile struct {
 			Name string `yaml:"name"`
 			Dest string `yaml:"dest"`
 		} `yaml:"logFile"`

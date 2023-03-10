@@ -5,10 +5,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/utils"
 	"log"
 	"os"
 	"server/config"
+	"server/web/jwt"
 	"server/web/router"
+	"time"
 )
 
 func InitWebserver() {
@@ -24,10 +27,12 @@ func InitWebserver() {
 	}))
 	createLogger(WebApp)
 	initStartForFistTime(WebApp)
-	WebApp.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-	WebApp.Post("/login", router.PostLogin)
+	WebApp.Use(jwt.Set(jwt.AuthConfig{
+		IdGenerator: utils.UUIDv4,
+		LoginPath:   config.GetAppProperties().WebServer.Security.LoginPath,
+		Expire:      time.Duration(config.GetAppProperties().WebServer.Security.TokenExpireInMinute) * time.Minute,
+	}))
+	initRouterArray(WebApp)
 	log.Fatal(WebApp.ListenTLS(":"+config.GetAppProperties().WebServer.Port, config.GetAppProperties().WebServer.SSLCrt, config.GetAppProperties().WebServer.SSLKey))
 }
 
@@ -55,5 +60,25 @@ func (s ShutDownLogFile) OnExitApp() {
 	err := s.LogFile.Close()
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func initRouterArray(app *fiber.App) {
+
+	for _, value := range router.GetRoutArray() {
+		switch value.Metod {
+		case router.Method_Get:
+			app.Get(value.Path, value.Function)
+			return
+		case router.Method_Post:
+			app.Post(value.Path, value.Function)
+			return
+		case router.Method_Put:
+			app.Put(value.Path, value.Function)
+			return
+		case router.Method_Delete:
+			app.Delete(value.Path, value.Function)
+			return
+		}
 	}
 }

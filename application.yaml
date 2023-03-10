@@ -8,6 +8,11 @@ database:
     name: gorm-log.txt
     dest: ./logs
 webServer:
+  security:
+    loginPath: /login
+    tokenExpireInMinute: 1
+    usernameParamName: username
+    passwordParamName: password
   setupPath: /setup
   port: 443
   sllCRT: ./ssl/certificate.crt
