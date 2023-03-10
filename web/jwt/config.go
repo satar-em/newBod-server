@@ -9,6 +9,7 @@ type AuthConfig struct {
 	IdGenerator func() string
 	Expire      time.Duration
 	LoginPath   string
+	LogoutPath  string
 }
 
 var Conf0 AuthConfig
@@ -24,6 +25,9 @@ func Set(conf AuthConfig) func(c *fiber.Ctx) error {
 			auth := GetAuth(c.GetReqHeaders()["Authentication"])
 			if auth != nil {
 				auth.Fresh()
+				if c.Path() == Conf0.LogoutPath && c.Method() == "GET" {
+					return GetLogout(c)
+				}
 				return c.Next()
 			}
 		}

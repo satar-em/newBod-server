@@ -34,6 +34,7 @@ type AppProperties struct {
 		Security  struct {
 			TokenExpireInMinute int    `yaml:"tokenExpireInMinute"`
 			LoginPath           string `yaml:"loginPath"`
+			LogoutPath          string `yaml:"logoutPath"`
 			UsernameParamName   string `yaml:"usernameParamName"`
 			PasswordParamName   string `yaml:"passwordParamName"`
 		} `yaml:"security"`

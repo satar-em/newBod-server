@@ -2,7 +2,6 @@ package initWeb
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"log"
 	"server/config"
 	"server/database/model"
 )
@@ -32,42 +31,27 @@ func getSetup(c *fiber.Ctx) error {
 	mapResponse := map[string]any{"canSetup": true}
 	return c.JSON(mapResponse)
 }
+
 func postSetup(c *fiber.Ctx) error {
 	bodyRequest := setupRequestBody{}
-	err := c.BodyParser(&bodyRequest)
-	if err != nil {
-		return c.SendString("bad Body")
-	}
+	c.BodyParser(&bodyRequest)
 	ServerUser := model.User{Name: "Server Init User", Username: "server"}
-	err = ServerUser.Save()
-	if err != nil {
-		log.Println(err)
-	}
-	ServerUser.CreatedByObject0 = &ServerUser
-	err = ServerUser.Save()
-	if err != nil {
-		log.Println(err)
-	}
-	bodyRequest.UserInit.CreatedByObject0 = &ServerUser
-	err = bodyRequest.UserInit.SetPasswordWithBcrypt(bodyRequest.UserInit.Password)
-	if err != nil {
-		log.Println(err)
-	}
-	err = bodyRequest.UserInit.Save()
-	if err != nil {
-		log.Println(err)
-	}
+	ServerUser.Save()
+	ServerUser.SetCreatedByAndSave(&ServerUser)
 
-	bodyRequest.ServerInit.CreatedByObject = &ServerUser
-	err = bodyRequest.ServerInit.Save()
-	if err != nil {
-		log.Println(err)
-	}
-	if bodyRequest.UserInit.ID != 0 {
-		config.GetAppProperties().NeedSetup = false
-	}
+	bodyRequest.ServerInit.Save()
+	bodyRequest.ServerInit.SetCreatedByAndSave(&ServerUser)
+
+	bodyRequest.UserInit.SetPasswordWithBcrypt(bodyRequest.UserInit.Password)
+	bodyRequest.UserInit.Save()
+	bodyRequest.UserInit.SetCreatedByAndSave(&ServerUser)
+
+	AdminRole := model.RoleUser{Name: "Administrator", Code: "moderator", UserContain: []*model.User{&ServerUser, &bodyRequest.UserInit}}
+	AdminRole.Save()
+	AdminRole.SetCreatedByAndSave(&ServerUser)
+
+	config.GetAppProperties().NeedSetup = false
 	return c.JSON(bodyRequest)
-
 }
 
 type setupRequestBody struct {

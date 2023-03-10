@@ -1,8 +1,10 @@
 package model
 
 import (
+	"errors"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"server/database"
 )
 
@@ -48,6 +50,30 @@ func (u *User) Save() error {
 		err := database.GetDB().Save(u).Error
 		return err
 	}
-	err := database.GetDB().Create(u).Error
-	return err
+	return database.GetDB().Create(u).Error
+}
+
+func (u *User) Fresh() error {
+	if u.ID == 0 {
+		return errors.New("there is not User")
+	}
+	return database.GetDB().Preload(clause.Associations).First(u).Error
+}
+func (u *User) SetRole(roles []*RoleUser) error {
+	if u.ID == 0 {
+		return errors.New("there is not User")
+	}
+	return database.GetDB().Model(u).Association("Role").Replace(roles)
+}
+func (u *User) SetCreatedByAndSave(CreatedBy *User) error {
+	if u.ID == 0 {
+		return errors.New("there is not User")
+	}
+	return database.GetDB().Model(u).Association("CreatedByObject0").Replace(CreatedBy)
+}
+func (u *User) SetUpdatedByAndSave(UpdatedBy *User) error {
+	if u.ID == 0 {
+		return errors.New("there is not User")
+	}
+	return database.GetDB().Model(u).Association("UpdatedByObject0").Replace(UpdatedBy)
 }

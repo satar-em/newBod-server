@@ -10,6 +10,7 @@ database:
 webServer:
   security:
     loginPath: /login
+    logoutPath: /logout
     tokenExpireInMinute: 1
     usernameParamName: username
     passwordParamName: password

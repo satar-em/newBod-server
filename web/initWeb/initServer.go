@@ -30,6 +30,7 @@ func InitWebserver() {
 	WebApp.Use(jwt.Set(jwt.AuthConfig{
 		IdGenerator: utils.UUIDv4,
 		LoginPath:   config.GetAppProperties().WebServer.Security.LoginPath,
+		LogoutPath:  config.GetAppProperties().WebServer.Security.LogoutPath,
 		Expire:      time.Duration(config.GetAppProperties().WebServer.Security.TokenExpireInMinute) * time.Minute,
 	}))
 	initRouterArray(WebApp)

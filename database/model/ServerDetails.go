@@ -1,6 +1,8 @@
 package model
 
 import (
+	"errors"
+	"gorm.io/gorm/clause"
 	"server/database"
 )
 
@@ -25,4 +27,20 @@ func (s *ServerDetails) Save() error {
 	}
 	err := database.GetDB().Create(s).Error
 	return err
+}
+
+func (s *ServerDetails) Fresh() error {
+	if s.ID != 0 {
+		return errors.New("there is not ServerDetails")
+	}
+	err := database.GetDB().Preload(clause.Associations).First(s).Error
+	return err
+}
+
+func (s *ServerDetails) SetCreatedByAndSave(CreatedBy *User) error {
+	return SetCreatedByAndSave(s, CreatedBy)
+}
+
+func (s *ServerDetails) SetUpdatedByAndSave(UpdatedBy *User) error {
+	return SetUpdatedByAndSave(s, UpdatedBy)
 }
