@@ -4,17 +4,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm/clause"
 	"log"
+	"server/config"
 	"server/database"
-	"server/database/initDB"
 	"server/database/model"
 	"testing"
 )
 
 func Test(t *testing.T) {
-	initDB.InitializeDB()
-	getAll()
+	//initDB.InitializeDB()
+	//getAll()
 	//typeTest()
-	//encriptTest()
+	//encryptTest()
+	appPropertiesTest()
 }
 
 func getAll() {
@@ -23,9 +24,6 @@ func getAll() {
 
 	var roleList []model.RoleUser
 	database.GetDB().Preload(clause.Associations).Find(&roleList)
-
-	var detailsList []model.ServerDetails
-	database.GetDB().Preload(clause.Associations).Find(&detailsList)
 
 	log.Println("pass")
 }
@@ -39,12 +37,10 @@ func typeTest() {
 	AdminRole := model.RoleUser{Name: "Administrator", Code: "moderator"}
 	AdminRole.ID = 121
 	model.SetCreatedByAndSave(&AdminRole, nil)
-	AdminSetails := model.ServerDetails{Name: "admin detgails", Summery: "kjasd13 354354"}
-	AdminSetails.ID = 4684
-	model.SetCreatedByAndSave(&AdminSetails, nil)
+
 	log.Println("pass")
 }
-func encriptTest() {
+func encryptTest() {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("emaisdasd@&*(@#!4"), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
@@ -59,4 +55,9 @@ func encriptTest() {
 	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte("emaisdasd@&*(@#!4"))
 	println(string(hashedPassword), err == nil)
 
+}
+func appPropertiesTest() {
+	prop := config.GetAppProperties()
+	println(prop)
+	log.Println("pass")
 }

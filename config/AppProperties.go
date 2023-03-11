@@ -18,6 +18,11 @@ func init() {
 }
 
 type AppProperties struct {
+	AppInfo struct {
+		Name    string `yaml:"name"`
+		Details string `yaml:"details"`
+		Summery string `yaml:"summery"`
+	} `yaml:"appInfo"`
 	DataBase struct {
 		DBHost     string `yaml:"dbHost"`
 		DBPort     string `yaml:"dbPort"`

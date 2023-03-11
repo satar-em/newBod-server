@@ -39,9 +39,6 @@ func postSetup(c *fiber.Ctx) error {
 	ServerUser.Save()
 	ServerUser.SetCreatedByAndSave(&ServerUser)
 
-	bodyRequest.ServerInit.Save()
-	bodyRequest.ServerInit.SetCreatedByAndSave(&ServerUser)
-
 	bodyRequest.UserInit.SetPasswordWithBcrypt(bodyRequest.UserInit.Password)
 	bodyRequest.UserInit.Save()
 	bodyRequest.UserInit.SetCreatedByAndSave(&ServerUser)
@@ -55,6 +52,5 @@ func postSetup(c *fiber.Ctx) error {
 }
 
 type setupRequestBody struct {
-	UserInit   model.User
-	ServerInit model.ServerDetails
+	UserInit model.User
 }

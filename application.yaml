@@ -1,3 +1,7 @@
+appInfo:
+  name: server name
+  details: server details
+  summery: server summery
 database:
   dbHost: localhost
   dbPort: 5432
