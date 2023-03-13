@@ -27,13 +27,16 @@ func InitWebserver() {
 	}))
 	createLogger(WebApp)
 	initStartForFistTime(WebApp)
-	WebApp.Use(jwt.Set(jwt.AuthConfig{
+	initPublicRouterArray(WebApp)
+	api := WebApp.Group("/api")
+	apiNeedAuth := api.Group("/need-auth")
+	apiNeedAuth.Use(jwt.Set(jwt.AuthConfig{
 		IdGenerator: utils.UUIDv4,
-		LoginPath:   config.GetAppProperties().WebServer.Security.LoginPath,
-		LogoutPath:  config.GetAppProperties().WebServer.Security.LogoutPath,
+		LoginPath:   "/api/need-auth" + config.GetAppProperties().WebServer.Security.LoginPath,
+		LogoutPath:  "/api/need-auth" + config.GetAppProperties().WebServer.Security.LogoutPath,
 		Expire:      time.Duration(config.GetAppProperties().WebServer.Security.TokenExpireInMinute) * time.Minute,
 	}))
-	initRouterArray(WebApp)
+	initApiNeedAuthArray(apiNeedAuth)
 	log.Fatal(WebApp.ListenTLS(":"+config.GetAppProperties().WebServer.Port, config.GetAppProperties().WebServer.SSLCrt, config.GetAppProperties().WebServer.SSLKey))
 }
 
@@ -64,10 +67,9 @@ func (s ShutDownLogFile) OnExitApp() {
 	}
 }
 
-func initRouterArray(app *fiber.App) {
-
-	for _, value := range router.GetRoutArray() {
-		switch value.Metod {
+func initPublicRouterArray(app *fiber.App) {
+	for _, value := range router.GetPublicRouterArray() {
+		switch value.Method {
 		case router.Method_Get:
 			app.Get(value.Path, value.Function)
 			return
@@ -79,6 +81,25 @@ func initRouterArray(app *fiber.App) {
 			return
 		case router.Method_Delete:
 			app.Delete(value.Path, value.Function)
+			return
+		}
+	}
+}
+
+func initApiNeedAuthArray(rout fiber.Router) {
+	for _, value := range router.GetApiNeedAuthArray() {
+		switch value.Method {
+		case router.Method_Get:
+			rout.Get(value.Path, value.Function)
+			return
+		case router.Method_Post:
+			rout.Post(value.Path, value.Function)
+			return
+		case router.Method_Put:
+			rout.Put(value.Path, value.Function)
+			return
+		case router.Method_Delete:
+			rout.Delete(value.Path, value.Function)
 			return
 		}
 	}

@@ -48,6 +48,9 @@ func postSetup(c *fiber.Ctx) error {
 	AdminRole.SetCreatedByAndSave(&ServerUser)
 
 	config.GetAppProperties().NeedSetup = false
+
+	bodyRequest.UserInit.Fresh()
+
 	return c.JSON(bodyRequest)
 }
 

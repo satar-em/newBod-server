@@ -2,10 +2,10 @@ package router
 
 import "github.com/gofiber/fiber/v2"
 
-type RoutInit struct {
+type RoutStruct struct {
 	Path     string
 	Function func(c *fiber.Ctx) error
-	Metod    int
+	Method   int
 }
 
 const (
@@ -15,12 +15,22 @@ const (
 	Method_Delete = 3
 )
 
-var routerArray []RoutInit
+var publicRouterArray []RoutStruct
 
-func AddRoutArray(rout RoutInit) {
-	routerArray = append(routerArray, rout)
+func AddPublicRouterArray(rout RoutStruct) {
+	publicRouterArray = append(publicRouterArray, rout)
 }
 
-func GetRoutArray() []RoutInit {
-	return routerArray
+func GetPublicRouterArray() []RoutStruct {
+	return publicRouterArray
+}
+
+var apiNeedAuthArray []RoutStruct
+
+func AddApiNeedAuthArray(rout RoutStruct) {
+	apiNeedAuthArray = append(apiNeedAuthArray, rout)
+}
+
+func GetApiNeedAuthArray() []RoutStruct {
+	return apiNeedAuthArray
 }
