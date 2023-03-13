@@ -15,7 +15,7 @@ webServer:
   security:
     loginPath: /login
     logoutPath: /logout
-    tokenExpireInMinute: 1
+    tokenExpireInMinute: 10
     usernameParamName: username
     passwordParamName: password
   setupPath: /setup

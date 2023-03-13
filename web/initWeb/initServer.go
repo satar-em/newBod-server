@@ -72,16 +72,16 @@ func initPublicRouterArray(app *fiber.App) {
 		switch value.Method {
 		case router.Method_Get:
 			app.Get(value.Path, value.Function)
-			return
+			break
 		case router.Method_Post:
 			app.Post(value.Path, value.Function)
-			return
+			break
 		case router.Method_Put:
 			app.Put(value.Path, value.Function)
-			return
+			break
 		case router.Method_Delete:
 			app.Delete(value.Path, value.Function)
-			return
+			break
 		}
 	}
 }
@@ -91,16 +91,16 @@ func initApiNeedAuthArray(rout fiber.Router) {
 		switch value.Method {
 		case router.Method_Get:
 			rout.Get(value.Path, value.Function)
-			return
+			break
 		case router.Method_Post:
 			rout.Post(value.Path, value.Function)
-			return
+			break
 		case router.Method_Put:
 			rout.Put(value.Path, value.Function)
-			return
+			break
 		case router.Method_Delete:
 			rout.Delete(value.Path, value.Function)
-			return
+			break
 		}
 	}
 }
