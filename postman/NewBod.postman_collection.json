@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "f43a399f-4bf3-4ce5-a20f-f1e0975f304e",
+		"name": "NewBod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "get all user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authentication",
+								"value": "9f6121ce-8472-433b-ade0-ad346a2d3c7d",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1/api/need-auth/user?exclusion=salam",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"need-auth",
+								"user"
+							],
+							"query": [
+								{
+									"key": "exclusion",
+									"value": "salam"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "role",
+			"item": [
+				{
+					"name": "get all role",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authentication",
+								"value": "d726115a-6a24-4de5-b23a-46400749252c",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1/api/need-auth/role",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"need-auth",
+								"role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "setup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"UserInit\":{\r\n    \t\"Name\":\"Mohammad Satar Emami Meybody\",\r\n    \t\"Username\":\"emami\",\r\n        \"Password\":\"em@mi123\",\r\n    \t\"Email\":\"satar7068@gmail.com\",\r\n    \t\"PhoneNumber\":\"09136729464\",\r\n    \t\"Address\":\"iran,yazs,meybod,shrak-shohada\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://127.0.0.1/setup",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"path": [
+						"setup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"emami\",\r\n    \"password\":\"em@mi123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://127.0.0.1/api/need-auth/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"path": [
+						"api",
+						"need-auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hello",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authentication",
+						"value": "b711c6a4-c752-4804-afe0-c976ca43c269",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://127.0.0.1/hello",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
