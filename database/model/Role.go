@@ -21,7 +21,7 @@ func (r *RoleUser) TableName() string {
 	return "new_bod_role"
 }
 func (r *RoleUser) TableNiceName() string {
-	return "Role Fro User"
+	return "Role For User"
 }
 
 func (r *RoleUser) Save() error {

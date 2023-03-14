@@ -55,12 +55,12 @@
 						"header": [
 							{
 								"key": "authentication",
-								"value": "d726115a-6a24-4de5-b23a-46400749252c",
+								"value": "64e64e4e-9b67-4c52-b7b7-1fe5b0638b15",
 								"type": "default"
 							}
 						],
 						"url": {
-							"raw": "https://127.0.0.1/api/need-auth/role",
+							"raw": "https://127.0.0.1/api/need-auth/role?exclusion=UserContain,DeletedAt",
 							"protocol": "https",
 							"host": [
 								"127",
@@ -72,6 +72,52 @@
 								"api",
 								"need-auth",
 								"role"
+							],
+							"query": [
+								{
+									"key": "exclusion",
+									"value": "UserContain,DeletedAt"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Server Tables",
+			"item": [
+				{
+					"name": "get all tables",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authentication",
+								"value": "99eab257-eba7-41b6-b84c-174781b3cbd0",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://127.0.0.1/api/need-auth/serverTable?exclusion=ID,CreatedAt,UpdatedAt,UpdatedAt,DeletedAt,CreatedBy,UpdatedBy",
+							"protocol": "https",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"path": [
+								"api",
+								"need-auth",
+								"serverTable"
+							],
+							"query": [
+								{
+									"key": "exclusion",
+									"value": "ID,CreatedAt,UpdatedAt,UpdatedAt,DeletedAt,CreatedBy,UpdatedBy"
+								}
 							]
 						}
 					},
@@ -110,21 +156,18 @@
 			"response": []
 		},
 		{
-			"name": "get token",
+			"name": "logout",
 			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"emami\",\r\n    \"password\":\"em@mi123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
+				"method": "GET",
+				"header": [
+					{
+						"key": "authentication",
+						"value": "64e64e4e-9b67-4c52-b7b7-1fe5b0638b15",
+						"type": "default"
 					}
-				},
+				],
 				"url": {
-					"raw": "https://127.0.0.1/api/need-auth/login",
+					"raw": "https://127.0.0.1/api/need-auth/logout",
 					"protocol": "https",
 					"host": [
 						"127",
@@ -135,7 +178,7 @@
 					"path": [
 						"api",
 						"need-auth",
-						"login"
+						"logout"
 					]
 				}
 			},
@@ -164,6 +207,38 @@
 					],
 					"path": [
 						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get token Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"emami\",\r\n    \"password\":\"em@mi123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://127.0.0.1/api/need-auth/login",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"path": [
+						"api",
+						"need-auth",
+						"login"
 					]
 				}
 			},

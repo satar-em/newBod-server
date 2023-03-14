@@ -31,13 +31,17 @@ func InitializeDB() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	tables_in_datbase, err0 := db.Migrator().GetTables()
-	if err0 != nil {
-		log.Fatal(err0)
-	}
-	for _, value := range tables_in_datbase {
-		log.Println("setting up \"" + value + "\" in database.")
 
+	for _, value0 := range database.GetTables() {
+		value, ok := value0.(database.EmamiTabler)
+		if !ok {
+			log.Fatal("err")
+		}
+		table := model.ServerTable{Code: value.TableNiceName(), NameInDatabase: value.TableName()}
+		err0 := db.Create(&table).Error
+		if err0 != nil {
+			log.Println(err0)
+		}
 	}
 	var user1 []model.User
 	db.Preload("Role.UserContain.Role.UserContain").Preload(clause.Associations).Find(&user1)

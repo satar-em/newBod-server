@@ -6,16 +6,18 @@ import (
 	"log"
 	"server/config"
 	"server/database"
+	"server/database/initDB"
 	"server/database/model"
 	"testing"
 )
 
 func Test(t *testing.T) {
-	//initDB.InitializeDB()
+	initDB.InitializeDB()
+	getAllTable()
 	//getAll()
 	//typeTest()
 	//encryptTest()
-	appPropertiesTest()
+	//appPropertiesTest()
 }
 
 func getAll() {

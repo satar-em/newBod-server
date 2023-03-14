@@ -11,18 +11,18 @@ import (
 )
 
 func init() {
-	AddApiNeedAuthArray(RoutStruct{Path: "/user", Function: getAllUser, Method: Method_Get})
+	AddApiNeedAuthArray(RoutStruct{Path: "/serverTable", Function: getAllTables, Method: Method_Get})
 }
 
-func getAllUser(c *fiber.Ctx) error {
-	var userList []model.User
+func getAllTables(c *fiber.Ctx) error {
+	var serverTablesList []model.ServerTable
 	OffsetQuery := c.QueryInt("offset", -1)
 	LimitQuery := c.QueryInt("limit", -1)
 	if OffsetQuery != -1 && LimitQuery != -1 && LimitQuery != 0 {
 		OffsetQuery = OffsetQuery * LimitQuery
 	}
-	database.GetDB().Preload(clause.Associations).Offset(OffsetQuery).Limit(LimitQuery).Find(&userList)
-	bytes, err := json.Marshal(userList)
+	database.GetDB().Preload(clause.Associations).Offset(OffsetQuery).Limit(LimitQuery).Find(&serverTablesList)
+	bytes, err := json.Marshal(serverTablesList)
 	if err != nil {
 		log.Println(err)
 	}
