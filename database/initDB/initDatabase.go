@@ -31,6 +31,14 @@ func InitializeDB() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	tables_in_datbase, err0 := db.Migrator().GetTables()
+	if err0 != nil {
+		log.Fatal(err0)
+	}
+	for _, value := range tables_in_datbase {
+		log.Println("setting up \"" + value + "\" in database.")
+
+	}
 	var user1 []model.User
 	db.Preload("Role.UserContain.Role.UserContain").Preload(clause.Associations).Find(&user1)
 	if len(user1) == 0 {

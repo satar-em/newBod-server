@@ -32,6 +32,10 @@ func (u *User) TableName() string {
 	return "new_bod_user"
 }
 
+func (u *User) TableNiceName() string {
+	return "Root user Table"
+}
+
 func (u *User) SetPasswordWithBcrypt(password string) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err == nil {

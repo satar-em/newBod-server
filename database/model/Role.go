@@ -13,12 +13,15 @@ func init() {
 type RoleUser struct {
 	EmamiModel
 	Name        string
-	Code        string
+	Code        string  `gorm:"uniqueIndex"`
 	UserContain []*User `gorm:"many2many:new_bod_user-role;"`
 }
 
 func (r *RoleUser) TableName() string {
 	return "new_bod_role"
+}
+func (r *RoleUser) TableNiceName() string {
+	return "Role Fro User"
 }
 
 func (r *RoleUser) Save() error {
